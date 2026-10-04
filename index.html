@@ -23,7 +23,7 @@ h1,h2{font:500 clamp(40px,8vw,104px)/1 var(--serif)}
 h2{font-size:clamp(34px,5vw,62px)}
 .orn{display:flex;align-items:center;justify-content:center;gap:10px;color:var(--gold);font-size:13px;letter-spacing:.2em;margin-bottom:14px}
 .orn::before,.orn::after{content:"";width:46px;height:1px;background:var(--gold)}
-.hero{height:100vh;position:sticky;top:0;overflow:hidden}
+.hero{height:100vh;height:100svh;position:relative;overflow:hidden}
 .hp{position:absolute;inset:0;background-size:cover;background-position:center;transform-origin:60% 50%}
 .shade{position:absolute;inset:0;z-index:1;background:linear-gradient(90deg,rgba(14,13,12,.88),rgba(14,13,12,.4) 58%,rgba(14,13,12,.1)),linear-gradient(0deg,rgba(14,13,12,.9),transparent 60%)}
 .hc{position:absolute;z-index:2;left:6vw;right:6vw;bottom:10vh}
@@ -423,6 +423,12 @@ body.dr-open .ob{opacity:0;pointer-events:none}
 body{padding-bottom:0}
 }
 @media(prefers-reduced-motion:reduce){.tb div{animation:none}.card:hover{transform:none}}
+.hs1{transition:opacity .9s ease,transform .9s ease}
+.hs1.sh{opacity:0!important;transform:translateY(26px);pointer-events:none}
+.hp{transition:opacity 1.3s ease}
+.hp.zm{animation:hz 9s ease-out forwards}
+@keyframes hz{from{transform:scale(1)}to{transform:scale(1.12)}}
+@media(prefers-reduced-motion:reduce){.hp.zm{animation:none}}
 </style></head><body>
 <div id="ld" role="status" aria-label="Loading"><div style="text-align:center"><b>Grill</b><i></i></div></div><div id="tst" role="status" aria-live="polite"></div>
 
@@ -431,7 +437,7 @@ body{padding-bottom:0}
 <nav class="glass"><b>Grill</b><a href="#top-notch">Highlights</a><a href="#menu">Menu</a><a href="#story">Our story</a><a href="#rooms">Rooms</a><a href="#events">Events</a><a href="#book">Reserve</a></nav>
 <button class="mbtn" id="hb" type="button" aria-label="Open menu" aria-expanded="false"><i></i><i></i><i></i></button>
 
-<div id="hw" style="position:relative;height:420vh"><header class="hero" id="hero">
+<header class="hero" id="hero">
 <div class="hp" style="background-image:var(--i9)"></div>
 <div class="hp" style="background-image:var(--i10);opacity:0"></div>
 <div class="hp" style="background-image:var(--i13);opacity:0"></div>
@@ -443,7 +449,7 @@ body{padding-bottom:0}
 <div class="hs1"><h1>Gather the table, we'll bring the rest.</h1><p>Sharing platters, warm starters and plenty of room for everyone.</p></div>
 </div>
 <div class="hb"><a class="btn pri" href="#book">Reserve a table</a><a class="btn" href="#menu">Explore the menu</a></div></div>
-</header></div><div class="tb" aria-label="Highlights"><div><span>Open every day, 24 hours</span><span>Cooked to order</span><span>Nyama · Pizza · Comfort plates</span><span>Rooms available</span><span>Order for pickup</span><span>Open every day, 24 hours</span><span>Cooked to order</span><span>Nyama · Pizza · Comfort plates</span><span>Rooms available</span><span>Order for pickup</span></div></div>
+</header><div class="tb" aria-label="Highlights"><div><span>Open every day, 24 hours</span><span>Cooked to order</span><span>Nyama · Pizza · Comfort plates</span><span>Rooms available</span><span>Order for pickup</span><span>Open every day, 24 hours</span><span>Cooked to order</span><span>Nyama · Pizza · Comfort plates</span><span>Rooms available</span><span>Order for pickup</span></div></div>
 
 <section class="s" id="top-notch"><div class="head"><div class="orn">FLAVORS FOR ROYALTY</div><h2>We offer top notch</h2><p>Quality is our standard, from the ingredients we choose to the way each dish is cooked and served.</p></div>
 <div class="cards">
@@ -833,12 +839,7 @@ if(typeof gsap==="undefined"||rm){[].forEach.call(document.querySelectorAll(".hs
 gsap.registerPlugin(ScrollTrigger);
 if(typeof Lenis!=="undefined"){var l=new Lenis({lerp:.08});l.on("scroll",ScrollTrigger.update);gsap.ticker.add(function(t){l.raf(t*1000)});gsap.ticker.lagSmoothing(0)}
 var HS=gsap.utils.toArray(".hs1"),HP=gsap.utils.toArray(".hp");
-var tl=gsap.timeline({scrollTrigger:{trigger:"#hw",start:"top top",end:"bottom bottom",scrub:1}});
-tl.to(".hp",{scale:1.2,ease:"none",duration:6},0);
-[1,2].forEach(function(k){var at=k*2.1-.4;
- tl.to(HS[k-1],{opacity:0,y:-50,duration:.6},at).to(HP[k],{opacity:1,duration:.9},at)
-   .fromTo(HS[k],{opacity:0,y:50},{opacity:1,y:0,duration:.6},at+.5)});
-tl.to({},{duration:.8});
+
 var W=Math.min(240,innerWidth*.45),one=innerWidth<760;
 function sl(el,x,trg){gsap.from(el,{opacity:0,x:x,ease:"power1.out",scrollTrigger:{trigger:trg||el,start:"top "+(one?99:92)+"%",end:"top "+(one?74:50)+"%",scrub:one?.35:1}})}
 gsap.utils.toArray(".card").forEach(function(el,k){sl(el,k%2?W:-W)});
@@ -1110,4 +1111,7 @@ setTimeout(function(){els.forEach(function(e){if(!e.classList.contains("in")){va
 <script>(function(){var t=document.querySelectorAll("#menu .fmtabs button"),p=document.querySelectorAll("#menu .fmp");t.forEach(function(b){b.addEventListener("click",function(){t.forEach(function(x){x.setAttribute("aria-selected",x===b)});p.forEach(function(x){x.classList.toggle("on",x.dataset.p===b.dataset.t)})})})})();</script><script>(function(){var b=document.getElementById("fmtoggle"),p=document.getElementById("fullpanel");if(!b)return;function rf(){try{if(window.ScrollTrigger){ScrollTrigger.refresh()}}catch(e){}}function sync(){rf();setTimeout(rf,120);setTimeout(rf,500)}b.addEventListener("click",function(){var o=p.hidden;p.hidden=!o;b.setAttribute("aria-expanded",o);b.textContent=o?"Hide full menu":"View full menu";sync()});[].forEach.call(document.querySelectorAll("#menu .fmtabs button"),function(t){t.addEventListener("click",sync)});window.addEventListener("load",rf)})();</script><div id="spg"></div><button id="up" type="button" aria-label="Back to top">&#8593;</button><script>(function(){var sp=document.getElementById("spg"),up=document.getElementById("up");
 function f(){var h=document.documentElement,m=h.scrollHeight-innerHeight,y=scrollY;sp.style.transform="scaleX("+(m>0?y/m:0)+")";var on=y>innerHeight*.6;up.classList.toggle("on",on)}
 addEventListener("scroll",f,{passive:true});f();up.onclick=function(){scrollTo({top:0,behavior:"smooth"})};
-if(matchMedia("(hover:hover) and (pointer:fine)").matches&&!matchMedia("(prefers-reduced-motion:reduce)").matches){document.querySelectorAll(".btn").forEach(function(b){b.addEventListener("mousemove",function(e){var r=b.getBoundingClientRect();b.style.transform="translate("+((e.clientX-r.left-r.width/2)*.12)+"px,"+((e.clientY-r.top-r.height/2)*.2)+"px)"});b.addEventListener("mouseleave",function(){b.style.transform=""})})}})();</script></body></html>
+if(matchMedia("(hover:hover) and (pointer:fine)").matches&&!matchMedia("(prefers-reduced-motion:reduce)").matches){document.querySelectorAll(".btn").forEach(function(b){b.addEventListener("mousemove",function(e){var r=b.getBoundingClientRect();b.style.transform="translate("+((e.clientX-r.left-r.width/2)*.12)+"px,"+((e.clientY-r.top-r.height/2)*.2)+"px)"});b.addEventListener("mouseleave",function(){b.style.transform=""})})}})();</script><script>(function(){var H=[].slice.call(document.querySelectorAll("#hero .hs1")),P=[].slice.call(document.querySelectorAll("#hero .hp"));if(H.length<2)return;
+var rm=matchMedia("(prefers-reduced-motion:reduce)").matches,n=0;
+function show(i){H.forEach(function(e,k){e.style.display="";e.style.opacity=k===i?"1":"0";e.classList.toggle("sh",k!==i)});P.forEach(function(e,k){e.style.opacity=k===i?"1":"0";e.classList.toggle("zm",k===i&&!rm)})}
+show(0);if(rm)return;setInterval(function(){if(document.hidden)return;n=(n+1)%H.length;show(n)},5000)})();</script></body></html>
